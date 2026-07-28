@@ -11,6 +11,21 @@ router.post("/register", authController.userRegisterController);
 router.post("/login", authController.userLoginController);
 router.post("/logout", authController.userLogoutController);
 
+// Helpful GET responses for browser testing
+router.get("/register", (req, res) => {
+  res.status(200).json({
+    success: false,
+    message: "Registration endpoint requires an HTTP POST request with { name, email, password, role }.",
+  });
+});
+
+router.get("/login", (req, res) => {
+  res.status(200).json({
+    success: false,
+    message: "Login endpoint requires an HTTP POST request with { email, password }.",
+  });
+});
+
 /**
  * Protected User Profile Route
  */
