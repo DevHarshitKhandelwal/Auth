@@ -9,17 +9,34 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// Root welcome endpoint
+app.get(["/", "/api"], (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "🚀 Auth API is running smoothly on Vercel!",
+    endpoints: {
+      health: "/api/health",
+      register: "POST /api/auth/register",
+      login: "POST /api/auth/login",
+      profile: "GET /api/auth/me",
+      manager: "GET /api/auth/manager",
+      admin: "GET /api/auth/admin",
+    },
+  });
+});
+
+// Routes (supports both /api/auth and /auth)
 app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
 
 // Health check endpoint
-app.get("/api/health", (req, res) => {
+app.get(["/api/health", "/health"], (req, res) => {
   res.status(200).json({ status: "OK", timestamp: new Date() });
 });
 
 // 404 Handler
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: "Route not found" });
+  res.status(404).json({ success: false, message: `Route not found: ${req.method} ${req.url}` });
 });
 
 // Global Error Handler
