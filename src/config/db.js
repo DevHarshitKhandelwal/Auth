@@ -7,13 +7,18 @@ try {
 } catch (e) {}
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    return;
+  }
   try {
     const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/jwt_auth_db";
     const conn = await mongoose.connect(mongoUri);
-    console.log(`✅ Online MongoDB Atlas Connected: ${conn.connection.host}`);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (err) {
     console.error(`❌ MongoDB Connection Error: ${err.message}`);
-    process.exit(1);
+    if (process.env.NODE_ENV !== "production") {
+      process.exit(1);
+    }
   }
 };
 
