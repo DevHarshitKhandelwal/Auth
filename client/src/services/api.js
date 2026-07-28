@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create Axios instance with base URL
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://auth-api-backend-ten.vercel.app/api",
 });
 
 /**
